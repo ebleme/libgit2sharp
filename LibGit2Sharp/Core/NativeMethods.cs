@@ -25,7 +25,7 @@ namespace LibGit2Sharp.Core
 
         static NativeMethods()
         {
-            if (Platform.IsRunningOnNetFramework() || Platform.IsRunningOnNetCore())
+            if ((Platform.IsRunningOnNetFramework() || Platform.IsRunningOnNetCore()) && !Platform.IsRunningOnMono())
             {
                 // Use NativeLibrary when available.
                 if (!TryUseNativeLibrary())
@@ -68,7 +68,7 @@ namespace LibGit2Sharp.Core
             return Path.Combine(nativeLibraryDir, libgit2 + Platform.GetNativeLibraryExtension());
         }
 
-#if NETFRAMEWORK
+#if NETFRAMEWORK || NETSTANDARD2_1
         private static bool TryUseNativeLibrary() => false;
 #else
         private static bool TryUseNativeLibrary()
